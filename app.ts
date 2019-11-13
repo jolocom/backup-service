@@ -1,7 +1,8 @@
-import { createConnection } from "typeorm";
+import { createConnection, getMongoManager } from "typeorm";
 import express from "express"
 import { Backup } from "./entities/backup";
 import bodyParser from "body-parser";
+import getRouter from "./router";
 
 export async function getApp() {
 
@@ -17,6 +18,7 @@ export async function getApp() {
 
   // todo set post data limit
   app.use(bodyParser.json());
+  app.use('/', getRouter(getMongoManager()));
 
   return app
 }
