@@ -8,7 +8,7 @@ describe('Authentication', () => {
   });
 
   it('should successfully test authentication middleware', async () => {
-    const data = { data: 'some data' };
+    const data = { keys: [{ pubKey: testPublicKey }], data: 'some data' };
 
     const next = jest.fn();
 
@@ -52,6 +52,22 @@ describe('Authentication', () => {
           pubKey: testPublicKey,
           date: new Date(oldDateTime).toISOString(),
           sig: 'wrongsig'
+        }
+      }
+    }, { status: status, send: send }, jest.fn());
+    expect(status).toBeCalledWith(400)
+  });
+
+  it('should fail if public keys differ', async () => {
+    const status = jest.fn();
+    const send = jest.fn();
+    // @ts-ignore
+    await handleAuthentication({
+      body: {
+        auth: authData,
+        data: {
+          keys: [{ pubKey: 'wrong key' }],
+          data: 'test'
         }
       }
     }, { status: status, send: send }, jest.fn());

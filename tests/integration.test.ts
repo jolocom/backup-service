@@ -10,8 +10,8 @@ import { Backup } from "../entities/backup";
 describe('Integration Tests', () => {
   let app: Express;
   beforeAll(async () => {
-    app = await getApp(true)
-    mockGlobalDate()
+    app = await getApp(true);
+    mockGlobalDate();
     getMongoManager().clear(Backup)
   });
   it('should return "not found" if data does not exist', async () => {
@@ -19,28 +19,28 @@ describe('Integration Tests', () => {
       .send({
         auth: authData
       })
-      .set('Accept', 'application/json')
+      .set('Accept', 'application/json');
     expect(result.status).toBe(404)
   });
 
   it('should store data to the database', async () => {
     const result = await request(app).post('/store-backup')
       .send({ auth: authData, data: encryptedData })
-      .set('Accept', 'application/json')
+      .set('Accept', 'application/json');
     expect(result.status).toBe(200)
   });
 
   it('should store and return backup file if data exists', async () => {
     await request(app).post('/store-backup')
       .send({ auth: authData, data: encryptedData })
-      .set('Accept', 'application/json')
+      .set('Accept', 'application/json');
 
     const result = await request(app).post('/get-backup')
       .send({
         auth: authData
       })
-      .set('Accept', 'application/json')
-    expect(result.status).toBe(200)
+      .set('Accept', 'application/json');
+    expect(result.status).toBe(200);
     expect(result.body).toEqual(encryptedData)
   });
 

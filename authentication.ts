@@ -9,6 +9,10 @@ export async function handleAuthentication(req: Request, res: Response, next: Ne
     const signature = req.body['auth']["sig"];
 
     try {
+      // validate if public keys are identical
+      if (req.body['data'] && (publicKey !== req.body["data"]['keys'][0]['pubKey']))
+        throw new Error('Public Keys are not identical');
+
       // validate date
       const timespan = new Date().getTime() - new Date(date).getTime();
       if (timespan > 60000) // 1 min
