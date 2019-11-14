@@ -1,12 +1,12 @@
 import { Backup } from "../entities/backup";
-import { encryptedData, publicKey } from "./test.data";
+import { encryptedData, testPublicKey } from "./test.data";
 
 
 describe('Backup Entity', () => {
 
   it('should test backup constructor', () => {
     const backupObj = Backup.fromData(encryptedData);
-    expect(backupObj.publicKey).toBe(publicKey)
+    expect(backupObj.publicKey).toBe(testPublicKey)
   });
 
   it('should throw an error when data is not correct', () => {

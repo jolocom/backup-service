@@ -5,9 +5,8 @@ import { Backup } from "./entities/backup";
 export default function getRouter(manager: MongoEntityManager) {
   const router = express.Router();
 
-  router.get("/:publicKey", async (req, res) => {
-    // TODO add auth
-    const publicKey = req.params["publicKey"];
+  router.post("/get-backup", async (req, res) => {
+    const publicKey = req.body["auth"]["pubKey"];
     const backup = await manager.findOne(Backup, { publicKey: publicKey });
     if (backup)
       res.send(backup.data);
@@ -15,16 +14,16 @@ export default function getRouter(manager: MongoEntityManager) {
       res.status(404).send('Not found')
   });
 
-  router.post("/", (async (req, res) => {
-    // TODO add auth
+  router.post("/store-backup", (async (req, res) => {
     try {
-      const backup = Backup.fromData(req.body);
+      const backup = Backup.fromData(req.body['data']);
       if (await manager.findOne(Backup, { publicKey: backup.publicKey }))
         await manager.findOneAndReplace(Backup, { publicKey: backup.publicKey }, backup);
       else
         await manager.save(backup);
       res.send("Saved!")
     } catch (e) {
+      console.log(e);
       res.status(400);
       res.send(e.message)
     }

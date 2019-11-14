@@ -13,3 +13,43 @@ Express service to store encrypted backups
 
 #### Run tests
 `yarn test`
+
+## Endpoints
+
+### Store Backup
+Endpoint: POST `/store-backup`
+
+**Required Data:** 
+```
+{
+    auth: {
+        pubKey: <hex-public-key>,
+        date: <current date in ISO format>,
+        sig: <signature of date generated with the private key related to the public key>,
+    },
+    data: {
+        keys: [
+            {
+                pubKey: <public key used to encrypt>,
+                cipher: <encrypted symmetric encryption key>',
+            }
+        ],
+        data: 'cipher text of data'
+    }
+}
+```
+
+
+### Get Backup
+Endpoint: POST `/get-backup`
+
+**Required Data:** 
+```
+{
+    auth: {
+        pubKey: <hex-public-key>,
+        date: <current date in ISO format>,
+        sig: <signature of date generated with the private key related to the public key>,
+    }
+}
+```
