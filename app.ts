@@ -9,7 +9,7 @@ export async function getApp(isTest=false) {
 
   await createConnection({
     type: "mongodb",
-    host: "localhost",
+    host: "mongo",
     port: 27017,
     database: isTest ? "backup" : "testDB",
     entities: [Backup]
