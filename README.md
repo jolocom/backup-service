@@ -12,7 +12,9 @@ Express service to store encrypted backups
 2. start server `yarn start`
 
 #### Run tests
-`yarn test`
+Unit tests: `yarn test`
+
+Integration tests (requires MongoDB to run on `localhost:27017`): `yarn test:integration` 
 
 ## Endpoints
 
