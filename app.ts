@@ -5,13 +5,13 @@ import bodyParser from "body-parser";
 import getRouter from "./router";
 import { handleAuthentication } from "./authentication";
 
-export async function getApp(isTest=false) {
+export async function getApp(isTest = false) {
 
   await createConnection({
     type: "mongodb",
-    host: "localhost",
+    host: isTest ? "localhost" : "mongo",
     port: 27017,
-    database: isTest ? "backup" : "testDB",
+    database: isTest ? "testDB" : "backup",
     entities: [Backup]
   });
 
