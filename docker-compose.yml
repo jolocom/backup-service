@@ -1,7 +1,6 @@
 version: "2"
 services:
   backup-service:
-    container_name: backup-service
 #    restart: always
     build: .
     ports:
@@ -9,9 +8,9 @@ services:
     links:
       - mongo
   mongo:
-    container_name: mongo
-    image: mongo
+    image: mongo:4.2
     volumes:
-      - ./data:/data/db
-    ports:
-      - "27017:27017"
+      - data-mongodb:/data/db
+
+volumes:
+  data-mongodb:
