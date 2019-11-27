@@ -7,10 +7,10 @@ WORKDIR /usr/src/app
 COPY package.json .
 COPY yarn.lock .
 # Install all Packages
-RUN yarn install
+RUN yarn install && yarn build
 
 # Copy all other source code to work directory
 ADD . /usr/src/app
 
-CMD [ "yarn", "start" ]
+CMD [ "yarn", "server" ]
 EXPOSE 8000
