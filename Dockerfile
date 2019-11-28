@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package.json .
 COPY yarn.lock .
 # Install all Packages
-RUN yarn install && yarn build
+RUN yarn install
 
 # Copy all other source code to work directory
 ADD . /usr/src/app

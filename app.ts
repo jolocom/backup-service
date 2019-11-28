@@ -4,6 +4,7 @@ import { Backup } from "./entities/backup";
 import bodyParser from "body-parser";
 import getRouter from "./router";
 import { handleAuthentication } from "./authentication";
+import morgan from "morgan";
 
 export async function getApp(isTest = false) {
 
@@ -16,9 +17,9 @@ export async function getApp(isTest = false) {
   });
 
   const app = express();
+  app.use(morgan('common'));
+  app.use(bodyParser.json({ limit: '1kb' }));
 
-  // todo set post data limit
-  app.use(bodyParser.json());
   app.use(handleAuthentication);
   app.use('/', getRouter(getMongoManager()));
 

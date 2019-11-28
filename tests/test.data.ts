@@ -8,7 +8,7 @@ export const authData = {
   testPublicKey,
   date: testDate,
   sig:
-    '3043022035b2d043167ec6603dcd4f323b19e71405f5355ab7ce8dd8c91f4fdc6494ca1a021f628ee7e0c24af05cf5f134d0bc97a9680a9d4551b845143945fc49158f4ba2'
+    '3cc802c9c74fb43df75918f25c7d53343058d9dfc86c0614fc6325477d4b0b162880ebb345813d7ac33cf2618513af5aca9d7dd10bdf647750b8c2df405d3ad5'
 };
 
 export const encryptedData = {

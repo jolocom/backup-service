@@ -1,8 +1,9 @@
 import { Response, Request, NextFunction } from "express";
-// @ts-ignore
-import eccrypto from "eccrypto";
+import { verify } from 'tiny-secp256k1'
+import * as crypto from "crypto";
 
 export async function handleAuthentication(req: Request, res: Response, next: NextFunction) {
+  let errorMsg;
   if (req.body['auth'] && req.body['auth']["pubKey"] && req.body['auth']["date"] && req.body['auth']["sig"]) {
     const publicKey = req.body['auth']['pubKey'];
     const date = req.body['auth']["date"];
@@ -17,20 +18,22 @@ export async function handleAuthentication(req: Request, res: Response, next: Ne
       const timespan = new Date().getTime() - new Date(date).getTime();
       if (timespan > 60000) // 1 min
         throw new Error('Request expired');
-
+      const dateHash = crypto
+        .createHash('sha256')
+        .update(date)
+        .digest();
       // validate signature
-      await eccrypto.verify(Buffer.from(publicKey, 'hex'), Buffer.from(date), Buffer.from(signature, 'hex'));
+      await verify(Buffer.from(dateHash), Buffer.from(publicKey, 'hex'), Buffer.from(signature, 'hex'));
       next();
-
+      return
     } catch (e) {
+      errorMsg = e.message;
       console.log('Invalid auth data', e);
-      res.status(400);
-      res.send('Authentication data invalid')
     }
-
   } else {
-    res.status(400);
-    res.send('Authentication missing')
+    errorMsg = 'Authentication missing'
   }
+  res.status(400);
+  res.send('Authentication failed: ' + errorMsg)
 
 }
