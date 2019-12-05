@@ -29,5 +29,12 @@ export default function getRouter(manager: MongoEntityManager) {
     }
   }));
 
+  router.post("/delete-backup", (async (req, res) => {
+    const publicKey = req.body['auth']['pubKey'];
+    await manager.delete(Backup, { publicKey: publicKey });
+    res.status(200);
+    res.send()
+  }));
+
   return router;
 }
