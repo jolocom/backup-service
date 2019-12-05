@@ -18,7 +18,7 @@ export async function getApp(isTest = false) {
 
   const app = express();
   app.use(morgan('common'));
-  app.use(bodyParser.json({ limit: '1kb' }));
+  app.use(bodyParser.json({ limit: '5mb' }));
 
   app.use(handleAuthentication);
   app.use('/', getRouter(getMongoManager()));
