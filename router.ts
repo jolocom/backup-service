@@ -1,10 +1,11 @@
 import express from 'express';
 import { MongoEntityManager } from "typeorm";
 import { Backup } from "./entities/backup";
+import { handleAuthentication } from "./authentication";
 
 export default function getRouter(manager: MongoEntityManager) {
   const router = express.Router();
-
+  router.use(handleAuthentication);
   router.post("/get-backup", async (req, res) => {
     const publicKey = req.body["auth"]["pubKey"];
     const backup = await manager.findOne(Backup, { publicKey: publicKey });
